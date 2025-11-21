@@ -22,6 +22,7 @@ class CommentFactory extends Factory
             'text' => $this->faker->sentence(),
             'user_id' => User::inRandomOrder()->first()->id,
             'article_id' => Article::inRandomOrder()->first()->id,
+            'accept' => true,
         ];
     }
 }

@@ -26,7 +26,7 @@ Route::get('/about', function () {
 
 // Auth
 Route::get('/login', [AuthController::class, 'showLoginForm']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');;
 Route::get('/register', [AuthController::class, 'showRegisterForm']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -35,4 +35,12 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::resource('article', ArticleController::class);
 
 // Comment
-Route::resource('comment', CommentController::class);
+Route::controller(CommentController::class)->prefix('comment')->group(function(){
+    Route::get('/', 'index')->name('comment.index');
+    Route::post('/', 'store');
+    Route::get('/edit/{comment}', 'edit');
+    Route::post('/update/{comment}', 'update');
+    Route::get('/delete/{comment}', 'delete');
+    Route::get('/accept/{comment}', 'accept');
+    Route::get('/reject/{comment}', 'reject');
+});

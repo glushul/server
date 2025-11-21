@@ -26,9 +26,9 @@
 </div>
 
 <div class="mt-5">
-    <h4>Comments ({{ $article->comments->count() }})</h4>
+    <h4>Comments ({{ $comments->count() }})</h4>
 
-    @foreach($article->comments as $comment)
+    @foreach($comments as $comment)
     <div class="card mb-3">
         <div class="card-body">
             <p class="mb-1">{{ $comment->text }}</p>

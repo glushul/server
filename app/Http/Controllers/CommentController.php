@@ -13,9 +13,10 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index(){
+        $this->authorize('crud-article');
+        $comments = Comment::latest()->paginate(10);
+        return view('comment.index', ['comments'=>$comments]);
     }
 
     /**
@@ -35,9 +36,10 @@ class CommentController extends Controller
         $comment->text = $request->text;
         $comment->user_id = auth()->id();
         $comment->article_id = $request->article_id;
+        $comment->accept = false;
 
         $comment->save();
-        return redirect()->route('article.show', $comment->article);
+         return redirect()->route('article.show', $request->article_id)->with('message', "Comment add succesful and enter for moderation");
     }
 
     /**
@@ -77,5 +79,19 @@ class CommentController extends Controller
         $this->authorize('crud-comment', $comment);
         $comment->delete();
         return redirect()->route('article.show', $comment->article);
+    }
+
+    public function accept(Comment $comment){
+        $this->authorize('crud-article');
+        $comment->accept = true;
+        $comment->save();
+        return redirect()->route('comment.index');
+    }
+
+    public function reject(Comment $comment){
+        $this->authorize('crud-article');
+        $comment->accept = false;
+        $comment->save();
+        return redirect()->route('comment.index');
     }
 }
