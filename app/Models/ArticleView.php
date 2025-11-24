@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArticleView extends Model
 {
-    //
+    protected $fillable = [
+        'article_id',
+        'url',
+    ];
+
+    // Опционально: укажи связи
+    public function article()
+    {
+        return $this->belongsTo(Article::class);
+    }
 }

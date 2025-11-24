@@ -22,10 +22,13 @@ class DailyStatsMail extends Command
         $viewsCount = ArticleView::whereDate('created_at', $today)->count();
         $commentsCount = Comment::whereDate('created_at', $today)->count();
 
-        $moderators = User::where('is_moderator', true)->get();
-
+        $moderators = User::where('role_id', 1)->get();
+        
         foreach ($moderators as $moderator) {
-            Mail::to($moderator->email)->send(new DailyStatsMailMailable($viewsCount, $commentsCount));
+            Mail::raw("Статистика за " . now()->format('Y-m-d') . ":\n\n- Просмотров статей: $viewsCount\n- Новых комментариев: $commentsCount", function ($message) use ($moderator) {
+                $message->to($moderator->email)
+                        ->subject('Ежедневная статистика сайта');
+            });
         }
 
         $this->info("Daily stats sent to moderators.");

@@ -10,4 +10,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: '0.0.0.0',        // ← разрешить внешние подключения
+        port: 5173,
+        hmr: {
+            host: 'localhost'   // ← чтобы HMR работал из браузера на Windows
+        }
+    }
 });

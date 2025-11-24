@@ -14,7 +14,6 @@ class CommentController extends Controller
      * Display a listing of the resource.
      */
     public function index(){
-        $this->authorize('crud-article');
         $comments = Comment::latest()->paginate(10);
         return view('comment.index', ['comments'=>$comments]);
     }
