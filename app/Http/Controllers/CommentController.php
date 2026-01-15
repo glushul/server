@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Cache;
 
 class CommentController extends Controller
 {
@@ -14,6 +15,7 @@ class CommentController extends Controller
      * Display a listing of the resource.
      */
     public function index(){
+        $this->authorize('crud-article');
         $comments = Comment::latest()->paginate(10);
         return view('comment.index', ['comments'=>$comments]);
     }
@@ -84,6 +86,7 @@ class CommentController extends Controller
         $this->authorize('crud-article');
         $comment->accept = true;
         $comment->save();
+        Cache::forget("article:show:{$comment->article_id}");
         return redirect()->route('comment.index');
     }
 
@@ -91,6 +94,7 @@ class CommentController extends Controller
         $this->authorize('crud-article');
         $comment->accept = false;
         $comment->save();
+        Cache::forget("article:show:{$comment->article_id}");
         return redirect()->route('comment.index');
     }
 }

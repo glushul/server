@@ -38,9 +38,9 @@ Route::resource('article', ArticleController::class);
 Route::controller(CommentController::class)->prefix('comment')->group(function(){
     Route::get('/', 'index')->name('comment.index');
     Route::post('/', 'store');
-    Route::get('/edit/{comment}', 'edit');
-    Route::post('/update/{comment}', 'update');
-    Route::get('/delete/{comment}', 'delete');
+    Route::get('/{comment}/edit', 'edit');
+    Route::post('/{comment}/update', 'update');
+    Route::delete('/{comment}', 'destroy');
     Route::get('/accept/{comment}', 'accept');
     Route::get('/reject/{comment}', 'reject');
 });

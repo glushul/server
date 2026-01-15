@@ -26,7 +26,7 @@ class NewArticleEvent implements ShouldBroadcastNow
      */
     public function broadcastOn(): Channel
     {
-        return new Channel('articles'); // публичный канал
+        return new Channel('articles');
     }
 
     /**
